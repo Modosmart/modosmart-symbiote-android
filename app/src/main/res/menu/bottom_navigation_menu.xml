@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/menu_room_sensor"
+            android:enabled="true"
+            android:icon="@drawable/ic_room_sensor"
+            android:title="@string/menu_room_sensor"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/menu_ac_switch"
+            android:enabled="true"
+            android:icon="@drawable/ic_ac_switch"
+            android:title="@string/menu_ac_switch"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/menu_settings"
+            android:enabled="true"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings"
+            app:showAsAction="ifRoom"/>
+</menu>
