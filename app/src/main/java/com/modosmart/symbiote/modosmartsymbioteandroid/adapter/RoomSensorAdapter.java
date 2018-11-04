@@ -73,9 +73,13 @@ public class RoomSensorAdapter extends RecyclerView.Adapter {
         final RoomSensorResourceModel resourceModel = resources.get(position);
         ((ResourceViewHolder) holder).mac_address.setText(resourceModel.getMacAddress());
         ((ResourceViewHolder) holder).symbiote_id.setText(resourceModel.getSymbioteId());
-        ((ResourceViewHolder) holder).temperature.setText(resourceModel.getTemperature() + (char) 0x00B0);
+        ((ResourceViewHolder) holder).temperature.setText(resourceModel.getTemperature() + (char) 0x00B0 + 'C');
         ((ResourceViewHolder) holder).humidity.setText(resourceModel.getHumidity() + "%");
-        ((ResourceViewHolder) holder).presence.setText(resourceModel.getPresence() + "%");
+        if (Integer.parseInt(resourceModel.getPresence()) != 0) {
+            ((ResourceViewHolder) holder).presence.setText("Present");
+        } else {
+            ((ResourceViewHolder) holder).presence.setText("Not Present");
+        }
         ((ResourceViewHolder) holder).battery.setText(resourceModel.getBattery() + "%");
         ((ResourceViewHolder) holder).firmware.setText(resourceModel.getFirmware());
     }
