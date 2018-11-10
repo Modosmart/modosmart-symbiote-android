@@ -1,6 +1,7 @@
 package com.modosmart.symbiote.modosmartsymbioteandroid.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -76,11 +77,37 @@ public class RoomSensorFragment extends Fragment implements INetworkService {
         if (requestNumber == REQUEST_READ_ROOM_SENSOR) {
             try {
                 int position = response.getInt("position");
-                String temperature = response.getString("temperature");
-                String humidity = response.getString("humidity");
-                String presence = response.getString("presence");
-                String battery = response.getString("battery");
-                String firmware = response.getString("firmware");
+                JSONArray values = response.getJSONArray("obsValues");
+                String temperature = "";
+                String humidity = "";
+                String presence = "";
+                String battery = "";
+                String firmware = "";
+
+                for (int i = 0; i < values.length(); i++)
+                {
+                    JSONObject value = values.getJSONObject(i);
+                    JSONObject property = value.getJSONObject("obsProperty");
+                    String name = property.getString("name");
+                    switch (name) {
+                        case "temperature":
+                            temperature = value.getString("value");
+                            break;
+                        case "humidity":
+                            humidity = value.getString("value");
+                            break;
+                        case "batteryLevel":
+                            battery = value.getString("value");
+                            break;
+                        case "activity":
+                            presence = value.getString("value");
+                            break;
+                        case "action":
+                            firmware = value.getString("value");
+                            break;
+                    }
+
+                }
 
                 RoomSensorResourceModel resource = allResources.get(position);
                 resource.setTemperature(temperature);
