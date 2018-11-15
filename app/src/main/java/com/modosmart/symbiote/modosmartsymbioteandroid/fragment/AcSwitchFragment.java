@@ -55,7 +55,7 @@ public class AcSwitchFragment extends Fragment implements INetworkService {
                 Log.d("DEBUG", "Status = " + status);
                 Log.d("DEBUG", "Symbiote ID = " + symbiote_id);
 
-                mSymbioteService.controlSwitchStatus(REQUEST_WRITE_AC_SWITCH, true,status, symbiote_id,
+                mSymbioteService.controlSwitchStatus(REQUEST_WRITE_AC_SWITCH, true, status, symbiote_id,
                         ConstantsUtil.SYMBIOTE_TOKEN, 0);
             }
         });
@@ -118,6 +118,7 @@ public class AcSwitchFragment extends Fragment implements INetworkService {
                         String symbiote_id = resource.getString("id");
                         String mac_address = resource.getString("name");
                         mac_address = mac_address.replace("AC_SWITCH_","");
+                        mac_address = mac_address.split("_")[0];
 
                         AcSwitchResourceModel mResourceModel = new AcSwitchResourceModel(type, symbiote_id, mac_address, false);
                         allResources.add(mResourceModel);

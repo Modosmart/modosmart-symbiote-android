@@ -135,6 +135,7 @@ public class RoomSensorFragment extends Fragment implements INetworkService {
                         String symbiote_id = resource.getString("id");
                         String mac_address = resource.getString("name");
                         mac_address = mac_address.replace("SM006_","");
+                        mac_address = mac_address.split("_")[0];
 
                         RoomSensorResourceModel mResourceModel = new RoomSensorResourceModel(type, symbiote_id,
                                 mac_address, "", "", "", "", "");

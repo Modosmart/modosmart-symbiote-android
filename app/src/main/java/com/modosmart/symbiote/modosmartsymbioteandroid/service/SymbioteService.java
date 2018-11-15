@@ -2,6 +2,7 @@ package com.modosmart.symbiote.modosmartsymbioteandroid.service;
 
 import android.util.Log;
 import com.android.volley.*;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.modosmart.symbiote.modosmartsymbioteandroid.network.NetworkResponseRequest;
 import com.modosmart.symbiote.modosmartsymbioteandroid.network.VolleySingleton;
@@ -90,12 +91,18 @@ public class SymbioteService {
 //        JSONObject obj = new JSONObject(params);
 //        Log.d("DEBUG", obj.toString());
 
-        JSONObject body_content = new JSONObject();
         JSONObject body = new JSONObject();
         try {
-            body_content.put("on", status);
-            body_content.put("control", control);
-            body.put("OnOffCapabililty", body_content);
+            int on_value = (status)? 1 : 0;
+            int control_value = (control)? 1 : 0;
+            JSONObject on_object = new JSONObject();
+            on_object.put("on", on_value);
+            JSONObject control_object = new JSONObject();
+            control_object.put("control", control_value);
+            JSONArray OnOffCapabililty = new JSONArray();
+            OnOffCapabililty.put(on_object);
+            OnOffCapabililty.put(control_object);
+            body.put("OnOffCapabililty", OnOffCapabililty);
         } catch (JSONException e) {
         }
 
@@ -162,18 +169,20 @@ public class SymbioteService {
     public void getRoomSensorReadings(final int requestNumber, final String symbiote_id,
                                     final String token, final int position) {
         String url = ConstantsUtil.SYMBIOTE_URL + "/rap/Sensors(\'" + symbiote_id + "\')/Observations?$top=1";
-        JsonObjectRequest mBasicRequestTest = new JsonObjectRequest(Request.Method.GET,
+        JsonArrayRequest mBasicRequestTest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
+                        JSONObject responseObject = new JSONObject();
                         try {
-                            response.put("position", position);
+                            responseObject = response.getJSONObject(0);
+                            responseObject.put("position", position);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        responseSuccess(response, requestNumber);
+                        responseSuccess(responseObject, requestNumber);
                     }
                 }, new Response.ErrorListener() {
             @Override
